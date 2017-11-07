@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 int
-main( char argc, char **argv)
+main( char argc, char **argv )
 {
     return 0;
 }
