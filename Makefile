@@ -14,7 +14,7 @@ CC      = $(TOOLS_DIR)/arm-none-eabi-gcc
 OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
 RM      = rm -f
 
-CFLAGS  = -Wall -Wextra -Warray-bounds -ffrestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
+CFLAGS  = -Wall -Wextra -Warray-bounds -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
 LDFLAGS = -nostdlib
 
 all: $(PROJ_NAME)

@@ -2,7 +2,8 @@
  * Memory management
  */
 
-#include <mmu.h>
+#include "global_defines.h"
+#include "mmu.h"
 
 /******************************************************************************
  * Optimized memcpy for 32-bit copies
@@ -16,7 +17,7 @@ memcpy( void *dst,
     char *pcsrc = (char *) src;
 
     // while not 32-bit aligned do byte-by-byte copy
-    while ( !(pcsrc & 0x3) && !(pcdst & 0x3) && len > 4 ) 
+    while ( !((size_t) pcsrc & 0x3) && !((size_t) pcdst & 0x3) && len > 0 ) 
     {
         *pcdst++ = *pcsrc++;
         len--;
@@ -37,23 +38,22 @@ memmove( void *dst,
          const void *src,
          size_t len )
 {
-    unsigned char *pbdst = ( unsigned char* ) dst;
-    unsigned char *pbsrc = ( unsigned char* ) src;
+    unsigned char *pcdst = ( unsigned char* ) dst;
+    unsigned char *pcsrc = ( unsigned char* ) src;
 
-    if ( pbdst == pdsrc )
-        return pbdst;
+    if ( pcdst == pcsrc )
+        return pcdst;
 
-    // if start of pbdst is in pdsrc copy from end
-    else if ( pbdst >= pdsrc && pbdst =< pdsrc + len )
+    // if start of pcdst is in pdsrc copy from end
+    else if ( pcdst >= pcsrc && pcdst <= pcsrc + len )
     {         
         while ( len > 0 )
         {
-            if ( ) 
         }
     }
 
-    // if end of pbdst is in pdsrc copy from beginning
-    else if ( pbdst + len >= pdsrc && pbdst <= pdsrc)
+    // if end of pcdst is in pdsrc copy from beginning
+    else if ( pcdst + len >= pcsrc && pcdst <= pcsrc)
     {
     
     }
