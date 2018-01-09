@@ -14,7 +14,8 @@ CC      = $(TOOLS_DIR)/arm-none-eabi-gcc
 OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
 RM      = rm -f
 
-CFLAGS = -Wall -Wextra -Warray-bounds -mcpu=cortex-m4 -mthumb --specs=nosys.specs
+CFLAGS  = -Wall -Wextra -Warray-bounds -ffrestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
+LDFLAGS = -nostdlib
 
 all: $(PROJ_NAME)
 
@@ -22,13 +23,15 @@ $(PROJ_NAME): $(PROJ_NAME).elf
 
 $(OBJS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	mkdir -p ./$(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
 
 $(PROJ_NAME).elf: $(OBJS)
 	mkdir -p ./$(BINDIR)
-	$(CC) $(INCLUDE) $(DEFS) $(CFLAGS) $(LFLAGS) $^ -o $(BINDIR)/$@
+	$(CC) $(INCLUDE) $(DEFS) $(CFLAGS) $(LDFLAGS) $^ -o $(BINDIR)/$@
 	$(OBJCOPY) -O ihex $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).bin
+
+.PHONY: clean flash
 
 clean:
 	$(RM) $(OBJDIR)/*.o $(BINDIR)/*
