@@ -17,7 +17,15 @@ memcpy( void *dst,
     char *pcsrc = (char *) src;
 
     // while not 32-bit aligned do byte-by-byte copy
+#if 0
     while ( !((size_t) pcsrc & 0x3) && !((size_t) pcdst & 0x3) && len > 0 ) 
+    {
+        *pcdst++ = *pcsrc++;
+        len--;
+    }
+#endif
+
+    while ( len > 0 ) 
     {
         *pcdst++ = *pcsrc++;
         len--;
