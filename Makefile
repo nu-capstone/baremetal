@@ -12,6 +12,7 @@ OBJS     := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 CC      = $(TOOLS_DIR)/arm-none-eabi-gcc
 OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
+OBJDUMP = $(TOOLS_DIR)/arm-none-eabi-objdump
 RM      = rm -f
 
 CFLAGS  = -Wall -Wextra -Warray-bounds -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
@@ -34,7 +35,7 @@ $(PROJ_NAME).elf: $(OBJS)
 .PHONY: clean flash
 
 clean:
-	$(RM) $(OBJDIR)/*.o $(BINDIR)/*
+	$(RM) $(OBJDIR)/* $(BINDIR)/*
 
 flash: $(PROJ_NAME).elf
 	st-flash write $(BINDIR)/$(PROJ_NAME).bin 0x8000000

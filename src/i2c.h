@@ -2,6 +2,14 @@
 #define I2C_H
 
 /******************************************************************************
+ * Contains info about i2c device
+ */
+typedef struct _i2c_t
+{
+    int id;
+} i2c_t;
+
+/******************************************************************************
  * Register Addresses
  */
 #define I2C_BASE_ADDR       0x40005400
@@ -31,9 +39,9 @@
 #define I2C_STATE_TIMEOUT           0xA0U,   /*!< Timeout state */
 #define I2C_STATE_ERROR             0xE0U    /*!< Error */
 
-int i2c_configure( void );
-int i2c_reset( void );
-int i2c_send( char *data, int length );
-int i2c_receive( char *data, int length );
+int i2c_configure( i2c_t *i2c );
+int i2c_reset( i2c_t *i2c );
+int i2c_send( i2c_t *i2c, char *data, int length );
+int i2c_receive( i2c_t *i2c, char *data, int length );
 
 #endif // I2C_H

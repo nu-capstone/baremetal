@@ -1,0 +1,5 @@
+Need to decide what clock to use
+
+Probably booting from SD card
+
+

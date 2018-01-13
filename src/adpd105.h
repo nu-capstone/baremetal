@@ -1,6 +1,8 @@
 #ifndef ADPD105_H
 #define ADPD105_H
 
+#include <stdint.h>
+
 /******************************************************************************
  * ADPD105 interfacing
  */
@@ -10,21 +12,21 @@
 /******************************************************************************
  * Register addresses
  */
-#define AFE_STATUS_REG          0x0
-#define AFE_INT_MASK_REG        0x1
-#define AFE_GPIO_DRV_REG        0x2
-#define AFE_FIFO_THRESH_REG     0x6
-#define AFE_DEVID_REG           0x8
-#define AFE_I2CS_ID_REG         0x9
-#define AFE_CLK_RATIO_REG       0xa
-#define AFE_GPIO_CTRL_REG       0xb
-#define AFE_SLV_ADDR_KEY_REG    0xd
-#define AFE_SW_RESET_REG        0xf
-#define AFE_MODE_REG            0x10
-#define AFE_SLOT_EN_REG         0x11
-#define AFE_FSAMPLE_REG         0x12
-#define AFE_PD_LED_SEL_REG      0x14
-#define AFE_NUM_AVG_REG         0x15
+#define AFE_STATUS_REG              0x0
+#define AFE_INT_MASK_REG            0x1
+#define AFE_GPIO_DRV_REG            0x2
+#define AFE_FIFO_THRESH_REG         0x6
+#define AFE_DEVID_REG               0x8
+#define AFE_I2CS_ID_REG             0x9
+#define AFE_CLK_RATIO_REG           0xa
+#define AFE_GPIO_CTRL_REG           0xb
+#define AFE_SLV_ADDR_KEY_REG        0xd
+#define AFE_SW_RESET_REG            0xf
+#define AFE_MODE_REG                0x10
+#define AFE_SLOT_EN_REG             0x11
+#define AFE_FSAMPLE_REG             0x12
+#define AFE_PD_LED_SEL_REG          0x14
+#define AFE_NUM_AVG_REG             0x15
 #define AFE_SLOTA_CH1_OFFSET_REG    0x18
 #define AFE_SLOTA_CH2_OFFSET_REG    0x19
 #define AFE_SLOTA_CH3_OFFSET_REG    0x1a
@@ -40,7 +42,7 @@
 #define AFE_SLOTA_LED_PULSE_REG     0x30
 #define AFE_SLOTA_NUM_PULSE_REG     0x31
 #define AFE_LED_DISABLE_REG         0x34
-#define AFE_SLOTA_LED_PULSE_REG     0x35
+#define AFE_SLOTB_LED_PULSE_REG     0x35
 #define AFE_SLOTB_NUM_PULSE_REG     0x36
 #define AFE_ALT_PWR_DN_REG          0x37
 #define AFE_EXT_SYNC_STARTUP_REG    0x38

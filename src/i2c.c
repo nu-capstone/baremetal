@@ -28,7 +28,7 @@ i2c_write_reg( int addr,
 /******************************************************************************
  */
 int
-i2c_configure( void )
+i2c_configure( i2c_t *i2c )
 {
     // NOTE Some of these might need to be programmed before every transfer
     // XXX Configure peripheral input clock to 4 MHz (fast mode) in I2C_CTRL_REG2
@@ -43,21 +43,21 @@ i2c_configure( void )
 /******************************************************************************
  */
 int
-i2c_send( char *data,
+i2c_send( i2c_t *i2c,
+          char *data,
           int length )
 {
     int reg_data;
     // Remember to write start and stop conditions
     // START condition sets uC to master mode automatically
 
-    // XXX START condition here
+    // START condition here
     reg_data = i2c_read_reg( I2C_CTRL_REG1 );
     reg_data |= 0x10;
     i2c_write_reg( I2C_CTRL_REG1, reg_data );
 
     // Read status reg 1 and write slave address to data register
     reg_data = i2c_read_reg( I2C_STATUS_REG1 );
-    
     
     // Send slave address and transmit mode (LSB reset)
     
@@ -68,7 +68,8 @@ i2c_send( char *data,
 /******************************************************************************
  */
 int
-i2c_receive( char *data,
+i2c_receive( i2c_t *i2c,
+             char *data,
              int length )
 {
 
