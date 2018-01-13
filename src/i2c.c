@@ -4,35 +4,14 @@
 
 #include "i2c.h"
 
-/******************************************************************************
- */
-static int
-i2c_read_reg( int addr )
-{
-    volatile int *reg_addr = (volatile int *) addr;
-    return *reg_addr;
-}
-
-/******************************************************************************
- */
-static int
-i2c_write_reg( int addr,
-               int val )
-{
-    volatile int *reg_addr = (volatile int *) addr;
-    *reg_addr = val;
-
-    return 0;
-}
-
-/******************************************************************************
- */
 int
 i2c_configure( i2c_t *i2c )
 {
-    // NOTE Some of these might need to be programmed before every transfer
-    // XXX Configure peripheral input clock to 4 MHz (fast mode) in I2C_CTRL_REG2
+    // 16 or 32-bit accesses according to reference manual
+    short *regptr;
+    // XXX Do some shit before
     
+<<<<<<< HEAD
     // Configure clock control registers
     
     // Configure rise time register
@@ -72,5 +51,8 @@ i2c_receive( i2c_t *i2c,
              char *data,
              int length )
 {
+=======
+    regptr = (char *) I2C_OAR_REG1;
+>>>>>>> parent of 3047f0e... Added adpd105 stuff and i2c stuff
 
 }
