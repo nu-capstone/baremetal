@@ -13,6 +13,7 @@ OBJS     := $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 CC      = $(TOOLS_DIR)/arm-none-eabi-gcc
 OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
 OBJDUMP = $(TOOLS_DIR)/arm-none-eabi-objdump
+AS		= $(TOOLS_DIR)/arm-none-eabi-as
 RM      = rm -f
 
 CFLAGS  = -Wall -Wextra -Warray-bounds -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
@@ -24,13 +25,15 @@ $(PROJ_NAME): $(PROJ_NAME).elf
 
 $(OBJS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	mkdir -p ./$(OBJDIR)
-	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
+	$(AS) -o $(OBJDIR)/startup.o $(SRCDIR)/startup.S
 
 $(PROJ_NAME).elf: $(OBJS)
 	mkdir -p ./$(BINDIR)
 	$(CC) $(INCLUDE) $(DEFS) $(CFLAGS) $(LDFLAGS) $^ -o $(BINDIR)/$@
 	$(OBJCOPY) -O ihex $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).bin
+	$(OBJDUMP) -D $(BINDIR)/$(PROJ_NAME).elf > $(BINDIR)/$(PROJ_NAME).dump
 
 .PHONY: clean flash
 

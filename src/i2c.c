@@ -4,6 +4,23 @@
 
 #include "i2c.h"
 
+static int
+i2c_read_reg( int addr )
+{
+    int *regptr = (int *) addr;
+    return *regptr;
+}
+
+static int
+i2c_write_reg( int addr,
+               int val )
+{
+    int *regptr = (int *) addr;
+    *regptr = val;
+
+    return 0;
+}
+
 int
 i2c_configure( i2c_t *i2c )
 {
@@ -11,7 +28,6 @@ i2c_configure( i2c_t *i2c )
     short *regptr;
     // XXX Do some shit before
     
-<<<<<<< HEAD
     // Configure clock control registers
     
     // Configure rise time register
@@ -51,8 +67,5 @@ i2c_receive( i2c_t *i2c,
              char *data,
              int length )
 {
-=======
-    regptr = (char *) I2C_OAR_REG1;
->>>>>>> parent of 3047f0e... Added adpd105 stuff and i2c stuff
 
 }

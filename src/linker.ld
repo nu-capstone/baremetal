@@ -2,6 +2,10 @@
  * Linker script
  */
 
+MEMORY
+{
+}
+
 SECTIONS
 {
 
