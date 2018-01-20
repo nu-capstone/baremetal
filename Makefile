@@ -17,7 +17,7 @@ AS		= $(TOOLS_DIR)/arm-none-eabi-as
 RM      = rm -f
 
 CFLAGS  = -Wall -Wextra -Warray-bounds -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs
-LDFLAGS = -nostdlib
+LDFLAGS = -nostdlib -T$(SRCDIR)/linker.ld
 
 all: $(PROJ_NAME)
 
@@ -34,6 +34,7 @@ $(PROJ_NAME).elf: $(OBJS)
 	$(OBJCOPY) -O ihex $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).bin
 	$(OBJDUMP) -D $(BINDIR)/$(PROJ_NAME).elf > $(BINDIR)/$(PROJ_NAME).dump
+	size $(BINDIR)/$(PROJ_NAME).elf
 
 .PHONY: clean flash
 

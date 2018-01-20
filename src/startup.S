@@ -6,8 +6,9 @@
 /* Thumb and ARM instructions use same syntax */
 .syntax unified
 
-/* Set reset vector here? */
-.word 0x20002000 /* Stack pointer reset value */
+/* Interrupt vector table */
+.section isr_vector
+.word 0x20020000 /* Stack pointer reset value */
 .word _start    /* 1 Reset */
 .word _hang     /* 2 NMI */
 .word _hang     /* 3 Hard fault */
@@ -37,3 +38,5 @@ _hang:
 
 /* Choose to use internal RC oscillator or external clock source (probably) */
 /* Set prescalers for AHB high-speed  and low-speed APB buses */
+
+.end
