@@ -1,5 +1,1 @@
-Need to decide what clock to use
-
-Probably booting from SD card
-
-
+Will need to include arm_math.h and link library under CMSIS if we want to use math functions (probably)
