@@ -1,5 +1,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_syscfg.h"
+#include "stm32f4xx_i2c.h"
+#include "stm32f4xx_tim.h"
 
 #define I2C_CLOCKSPEED          100000
 #define I2C_MODE                I2C_MODE_I2C
@@ -16,7 +18,7 @@
 void
 config_periphs( void )
 {
-    I2C_InitTypedef i2c_init;
+    I2C_InitTypeDef i2c_init;
     I2C_TypeDef i2c;
     TIM_TimeBaseInitTypeDef advtimer_init;
     TIM_TypeDef advtimer;
@@ -28,7 +30,7 @@ config_periphs( void )
     advtimer_init.TIM_ClockDivision = ADVTIMER_CLOCKDIV;
     advtimer_init.TIM_RepetitionCounter = ADVTIMER_REPCOUNT;
     TIM_TimeBaseInit( &advtimer, &advtimer_init );
-    TIM_Cmd( advtimer, ENABLE );
+    TIM_Cmd( &advtimer, ENABLE );
 
 
 }

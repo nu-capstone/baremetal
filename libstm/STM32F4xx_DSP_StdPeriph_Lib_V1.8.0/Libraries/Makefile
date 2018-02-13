@@ -18,7 +18,9 @@ AS		= $(TOOLS_DIR)/arm-none-eabi-as
 AR		= $(TOOLS_DIR)/arm-none-eabi-ar
 RM      = rm -f
 
-CFLAGS  = -Wall -Wextra -DSTM32F40_41xxx -Warray-bounds -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs -I./$(STMDIR)/inc -I./CMSIS/Include
+DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER
+
+CFLAGS  = -Wall -Wextra -Warray-bounds $(DEFINES) -ffreestanding -mcpu=cortex-m4 -mthumb --specs=nosys.specs -I./$(STMDIR)/inc -I./CMSIS/Include
 
 all: $(PROJ_NAME)
 
@@ -34,7 +36,5 @@ $(PROJ_NAME).a: $(OBJS)
 .PHONY: clean
 
 clean:
-	@echo $(SRCS)
-	@echo $(OBJS)
-	# $(RM) $(STMDIR)/$(OBJDIR)/* ./$(PROJ_NAME).a
+	$(RM) $(STMDIR)/$(OBJDIR)/* ./$(PROJ_NAME).a
 
