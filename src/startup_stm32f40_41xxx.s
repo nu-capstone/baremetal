@@ -4,7 +4,8 @@
   * @author    MCD Application Team
   * @version   V1.8.0
   * @date      09-November-2016
-  * @brief     STM32F40xxx/41xxx Devices vector table for GCC based toolchain.   
+  * @brief     STM32F40xxx/41xxx Devices vector table for RIDE7 toolchain.
+  *            Same as startup_stm32f40xx.s and maintained for legacy purpose             
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
@@ -101,8 +102,6 @@ LoopFillZerobss:
 
 /* Call the clock system intitialization function.*/
   bl  SystemInit   
-/* Call static constructors */
-    bl __libc_init_array
 /* Call the application's entry point.*/
   bl  main
   bx  lr    
@@ -232,8 +231,8 @@ g_pfnVectors:
   .word     DCMI_IRQHandler                   /* DCMI                         */                   
   .word     CRYP_IRQHandler                   /* CRYP crypto                  */                   
   .word     HASH_RNG_IRQHandler               /* Hash and Rng                 */
-  .word     FPU_IRQHandler                    /* FPU                          */
-                        
+  .word     FPU_IRQHandler                    /* FPU                          */                         
+                            
 /*******************************************************************************
 *
 * Provide weak aliases for each Exception handler to the Default_Handler. 
@@ -512,6 +511,6 @@ g_pfnVectors:
    .thumb_set HASH_RNG_IRQHandler,Default_Handler   
 
    .weak      FPU_IRQHandler                  
-   .thumb_set FPU_IRQHandler,Default_Handler  
-   
+   .thumb_set FPU_IRQHandler,Default_Handler 
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
