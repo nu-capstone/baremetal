@@ -1,1 +1,5 @@
 Will need to include arm_math.h and link library under CMSIS if we want to use math functions (probably)
+
+Using pins for I2C1 for comms with the ADI part
+
+Can use a pin to the ADC on chip for temperature if using thermistor?
