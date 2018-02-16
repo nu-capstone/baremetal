@@ -23,7 +23,7 @@ DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER
 # 		  -mthumb --specs=nosys.specs -I./$(INCDIR)
 # LDFLAGS = -L./lib/ -l:libstm.a -nostdlib -T$(SRCDIR)/linker.ld -mcpu=cortex-m4 -mthumb
 CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
-		  -mthumb --specs=nano.specs -I./$(INCDIR)
+		  -mthumb --specs=nano.specs -I./$(INCDIR) -O0
 LDFLAGS = -L./lib/ -nostartfiles -nostdlib -l:libstm.a -T$(SRCDIR)/linker.ld \
 		  -mcpu=cortex-m4 -mthumb -Wl,--gc-sections
 
