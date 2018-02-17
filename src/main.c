@@ -10,5 +10,11 @@
 int
 main( void )
 {
+    // initialization here
+    //
+    while ( 1 )
+    {
+        // do the shit 
+    }
     return 0;
 }

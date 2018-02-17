@@ -18,10 +18,16 @@ interrupt_init( void )
     exti_init.EXTI_Trigger = EXTI_Trigger_Rising;
     EXTI_Init( &exti_init );
 
-    // add IRQ vector to NVIC
+    // add IRQ for ADPD to NVIC
     nvic_init.NVIC_IRQChannel = EXTI0_IRQn;
     nvic_init.NVIC_IRQChannelPreemptionPriority = 0x0;
     nvic_init.NVIC_IRQChannelSubPriority = 0x0; // can't be preempted
+    nvic_init.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init( &nvic_init );
+
+    nvic_init.NVIC_IRQChannel = USART1_IRQn;
+    nvic_init.NVIC_IRQChannelPreemptionPriority = 0x1;
+    nvic_init.NVIC_IRQChannelSubPriority = 0x1;
     nvic_init.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init( &nvic_init );
 }
