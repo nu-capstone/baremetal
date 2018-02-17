@@ -1,3 +1,6 @@
+# Good makefile and st-link example
+# https://github.com/Malkavian/tuts/tree/master/stm/blinky
+
 PROJ_NAME = heart
 
 TOOLS_DIR = /usr/bin
@@ -18,14 +21,11 @@ OBJDUMP = $(TOOLS_DIR)/arm-none-eabi-objdump
 AS		= $(TOOLS_DIR)/arm-none-eabi-as
 RM      = rm -f
 
-DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER
-# CFLAGS  = -Wall -Wextra -Warray-bounds -ffreestanding -mcpu=cortex-m4 \
-# 		  -mthumb --specs=nosys.specs -I./$(INCDIR)
-# LDFLAGS = -L./lib/ -l:libstm.a -nostdlib -T$(SRCDIR)/linker.ld -mcpu=cortex-m4 -mthumb
+DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSEVALUE=8000000
 CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
 		  -mthumb --specs=nano.specs -I./$(INCDIR) -O0
 LDFLAGS = -L./lib/ -nostartfiles -nostdlib -l:libstm.a -T$(SRCDIR)/linker.ld \
-		  -mcpu=cortex-m4 -mthumb -Wl,--gc-sections
+		  -Wl,--gc-sections
 
 all: $(PROJ_NAME)
 
