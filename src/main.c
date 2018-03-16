@@ -13,6 +13,8 @@ int
 main( void )
 {
     // initialization here
+    
+    return 0;
     gpio_init();
     uart_init();
     i2c_init();

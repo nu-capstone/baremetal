@@ -19,11 +19,12 @@ CC      = $(TOOLS_DIR)/arm-none-eabi-gcc
 OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
 OBJDUMP = $(TOOLS_DIR)/arm-none-eabi-objdump
 AS		= $(TOOLS_DIR)/arm-none-eabi-as
+GDB		= $(TOOLS_DIR)/arm-none-eabi-gdb
 RM      = rm -f
 
 DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSEVALUE=8000000
 CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
-		  -mthumb --specs=nano.specs -I./$(INCDIR) -O0
+		  -mthumb --specs=nano.specs -I./$(INCDIR)
 LDFLAGS = -L./lib/ -nostartfiles -nostdlib -l:libstm.a -T$(SRCDIR)/linker.ld \
 		  -Wl,--gc-sections
 
@@ -44,10 +45,14 @@ $(PROJ_NAME).elf: $(OBJS)
 	$(OBJDUMP) -D $(BINDIR)/$(PROJ_NAME).elf > $(BINDIR)/$(PROJ_NAME).dump
 	size $(BINDIR)/$(PROJ_NAME).elf
 
-.PHONY: clean flash
+.PHONY: clean flash debug
 
 clean:
 	$(RM) $(OBJDIR)/* $(BINDIR)/*
 
 flash: $(PROJ_NAME).elf
 	st-flash write $(BINDIR)/$(PROJ_NAME).bin 0x8000000
+
+debug: CFLAGS += -DDEBUG -g3
+debug: $(PROJ_NAME).elf
+	$(GDB) -tui -silent -ex 'target extended-remote localhost:4242' $(BINDIR)/$(PROJ_NAME).elf

@@ -3,7 +3,8 @@
 
 #include "uart.h"
 
-#define UART_TIMEOUT_COUNTS 168000000 / 115200
+// #define UART_TIMEOUT_COUNTS 168000000 / 19200
+#define UART_TIMEOUT_COUNTS 168000000
 
 static uint8_t received_buf[256];
 
@@ -13,7 +14,7 @@ uart_init( void )
     USART_InitTypeDef usart_init1;
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
-    usart_init1.USART_BaudRate = 115200;
+    usart_init1.USART_BaudRate = 19200;
     usart_init1.USART_WordLength = USART_WordLength_8b;
     usart_init1.USART_StopBits = USART_StopBits_1;
     usart_init1.USART_Parity = USART_Parity_No; // might change this
@@ -48,6 +49,8 @@ uart_puts( USART_TypeDef *USARTx, volatile uint8_t *s )
 void
 USART1_IRQHandler( void )
 {
+    // XXX TEST
+    return;
     // check if USART1 receive interrupt flag is set
     if ( USART_GetITStatus( USART1, USART_IT_RXNE ) )
     {

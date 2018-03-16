@@ -12,6 +12,7 @@ interrupt_init( void )
     // using PA0 for EXTI_Line0
     SYSCFG_EXTILineConfig( EXTI_PortSourceGPIOA, EXTI_PinSource0 );
 
+    // external interrupt for ADPD data ready
     exti_init.EXTI_Line = EXTI_Line0;
     exti_init.EXTI_LineCmd = ENABLE;
     exti_init.EXTI_Mode = EXTI_Mode_Interrupt;
@@ -25,6 +26,7 @@ interrupt_init( void )
     nvic_init.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init( &nvic_init );
 
+    // usart1 data ready interrupt
     nvic_init.NVIC_IRQChannel = USART1_IRQn;
     nvic_init.NVIC_IRQChannelPreemptionPriority = 0x1;
     nvic_init.NVIC_IRQChannelSubPriority = 0x1;
