@@ -35,9 +35,9 @@ typedef struct {
     uint16_t val; 
 } RecvType_t;
 
-
-SendPacket_t*   create_packet(SendType_t data_type, uint16_t value); 
-RecvPacket_t*   parse_uart(void);
+void            push_packet(SendPacket_t, packet);
+SendPacket_t   create_packet(SendType_t data_type, uint16_t value); 
+RecvPacket_t   parse_uart(void);
 
 
 #endif // MESSAGE_H 
