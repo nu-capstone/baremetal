@@ -18,6 +18,7 @@ EXTI0_IRQHandler( void )
 int
 adpd_init( void )
 {
+    return 0;
 }
 
 /******************************************************************************
@@ -101,5 +102,7 @@ adpd_read_words( uint8_t reg_addr,
 int
 adpd_read_all_regs( uint16_t *buf )
 {
+    adpd_read_words( 0x0, buf, 0x60 );
 
+    return 0;
 }

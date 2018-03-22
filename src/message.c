@@ -12,47 +12,49 @@ void
 push_packet(SendPacket_t packet) 
 {
     SendType_t data_type = packet.data_type;
-    uint16_t value = packet.value;
+    uint16_t value = packet.val;
     if(data_type == PPGa) 
     {
-        tx_buf.push((uint8_t) 1);
+        uart_push( &tx_buf, 1 );
     }
     else if(data_type == PPGb) 
     {
-        tx_buf.push((uint8_t) 2);
+        uart_push( &tx_buf, 2 );
     }
     else if(data_type == ECG) 
     {
-        tx_buf.push((uint8_t) 4);
+        uart_push( &tx_buf, 4 );
     }
     else if(data_type == TEMP) 
     {
-        tx_buf.push((uint8_t) 8);
+        uart_push( &tx_buf, 8 );
     }
     else if(data_type == MISC) 
     {
-        tx_buf.push((uint8_t) 16);
+        uart_push( &tx_buf, 16 );
     }
-    tx_buf.push((uint8_t) value >> 8); 
-    tx_buf.push((uint8_t) value);
+
+    uart_push( &tx_buf, (uint8_t) ( value >> 8 )); 
+    uart_push( &tx_buf, (uint8_t) ( value & 0xff ));
 } 
 
 SendPacket_t 
 create_packet(uint8_t data_type_int, uint16_t val) 
 {
-    struct SendPacket_t packet; 
+    SendPacket_t packet; 
     packet.val = val;
-    if(data_type_int == 1) {
+
+    if(data_type_int == 1)
         packet.data_type = PPGa;
-    } else if(data_type_int == 2) {
-        packet.data_type = PPGb; 
-    } else if(data_type_int == 4) {
-        packet.data_type = ECG; 
-    } else if(data_type_int == 8) {
-        packet.data_type = TEMP;
-    } else if(data_type == 16) {
-        packet.data_type = MISC; 
-    }
+    else if(data_type_int == 2)
+      packet.data_type = PPGb; 
+    else if(data_type_int == 4)
+      packet.data_type = ECG; 
+    else if(data_type_int == 8)
+      packet.data_type = TEMP;
+    else if(data_type_int == 16)
+      packet.data_type = MISC; 
+    
     return packet; 
 }
 
@@ -60,13 +62,13 @@ create_packet(uint8_t data_type_int, uint16_t val)
  * Pops off three uart messages and turns them into a uint16_t and
  * a reg (uint8_t)
  */
-RecvType_t
+RecvPacket_t
 parse_uart(void) 
 {
-    RecvType_t packet; 
-    packet.reg = rx_buf.pop(); 
-    packet.val = rx_buf.pop() << 8;
-    packet.val = rx_buf.pop();  
+    RecvPacket_t packet; 
+    packet.reg = uart_pop( &rx_buf ); 
+    packet.val = uart_pop( &rx_buf ) << 8;
+    packet.val |= uart_pop( &rx_buf );  
     return packet; 
 }
 

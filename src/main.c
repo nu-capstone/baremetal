@@ -25,7 +25,15 @@ main( void )
     interrupt_init();
     while ( 1 )
     {
-        // do the shit 
+        // read command from uart
+        // if ( command received )
+        //  process command
+        //  respond over uart
+        // else
+        //  read adpd0
+        //  read adpd1
+        //  do dsp shit
+        //  send stuff back over uart
     }
     return 0;
 }

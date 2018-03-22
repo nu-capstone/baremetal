@@ -23,8 +23,10 @@ GDB		= $(TOOLS_DIR)/arm-none-eabi-gdb
 RM      = rm -f
 
 DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSEVALUE=8000000
+# CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
+# 		  -mthumb --specs=nano.specs -I./$(INCDIR)
 CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
-		  -mthumb --specs=nano.specs -I./$(INCDIR)
+		  -mthumb -I./$(INCDIR)
 LDFLAGS = -L./lib/ -nostartfiles -nostdlib -l:libstm.a -T$(SRCDIR)/linker.ld \
 		  -Wl,--gc-sections
 

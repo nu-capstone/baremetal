@@ -1,6 +1,8 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <stdint.h>
+
 // "Only requirement is that it is bytewise"
 // Messaging format between microcontroller and display tools
 // What can be sent from the microcontroller to the display tools?
@@ -33,9 +35,9 @@ typedef struct {
 typedef struct {
     uint8_t reg; 
     uint16_t val; 
-} RecvType_t;
+} RecvPacket_t;
 
-void            push_packet(SendPacket_t, packet);
+void           push_packet(SendPacket_t packet);
 SendPacket_t   create_packet(SendType_t data_type, uint16_t value); 
 RecvPacket_t   parse_uart(void);
 

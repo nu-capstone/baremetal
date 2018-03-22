@@ -26,35 +26,77 @@ uart_init( void )
 }
 
 /******************************************************************************
- * Put string over uart (not sure why volatile keyword needs to be used)
+ */
+void
+uart_buf_init( uart_buf_t *buf )
+{
+    buf->head = 0;
+    buf->tail = 0;
+}
+
+/******************************************************************************
+ */
+static int
+uart_buf_next( uart_buf_t *buf )
+{
+    if ( buf->tail + 1 == UART_BUF_LEN )
+        return 0;
+    else
+        return buf->tail + 1;
+}
+
+/******************************************************************************
  */
 int
-uart_puts( USART_TypeDef *USARTx, volatile uint8_t *s )
+uart_data_avail( uart_buf_t *buf )
 {
-    int timeout_counts;
-    while ( *s )
-    {
-        timeout_counts = UART_TIMEOUT_COUNTS;
-        // check if transmit register is empty and no timeout
-        while ( !(USARTx->SR & USART_SR_TC ) && timeout_counts > 0)
-            /* timeout_counts--; */
-        /* if ( timeout_counts == 0 ) */
-        /*     return 1; */
-        USART_SendData( USARTx, *s );
-        s++ ;
-    }
+    if ( buf->tail == buf->head )
+        return 0;
+    return 1;
+}
+
+/******************************************************************************
+ */
+int
+uart_space_avail( uart_buf_t *buf )
+{
+    if ( uart_buf_next( buf ) == buf->head )
+        return 0;
+    return 1;
+}
+
+/******************************************************************************
+ */
+int
+uart_push( uart_buf_t *buf,
+           uint8_t c )
+{
+    buf->buf[buf->tail] = c;
+    buf->tail = uart_buf_next( buf );
+
     return 0;
+}
+
+/******************************************************************************
+ */
+uint8_t
+uart_pop( uart_buf_t *buf )
+{
+    uint8_t data = buf->buf[buf->head];
+    buf->head = uart_buf_next( buf );
+    
+    return data;
 }
 
 void
 USART1_IRQHandler( void )
 {
-    // XXX TEST
-    return;
     // check if USART1 receive interrupt flag is set
     if ( USART_GetITStatus( USART1, USART_IT_RXNE ) )
     {
-        static uint32_t count = 0;
+        uint8_t t = USART1->DR;
+        uart_push( &rx_buf, t );
+#if 0
         uint8_t t = USART1->DR; // XXX Use USART_ReceiveData() if using parity bit
 
         if ( t != '\n' && count < 256 )
@@ -68,5 +110,6 @@ USART1_IRQHandler( void )
             count = 0;
             uart_puts( USART1, received_buf );
         }
+#endif
     }
 }
