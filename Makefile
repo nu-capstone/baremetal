@@ -3,7 +3,21 @@
 
 PROJ_NAME = heart
 
-TOOLS_DIR = /usr/bin
+OS := $(@shell uname)
+
+ifeq ($(OS),Windows_NT)
+	CFLAGS += -D WIN32
+else
+	UNAME := $(shell uname)
+	ifeq ($(UNAME),Linux)
+		TOOLS_DIR = /usr/bin
+	endif
+	ifeq ($(UNAME),Darwin)
+		TOOLS_DIR = /usr/local/bin
+	endif
+endif
+
+# TOOLS_DIR = /usr/bin
 
 SRCDIR = src
 OBJDIR = obj
@@ -23,10 +37,8 @@ GDB		= $(TOOLS_DIR)/arm-none-eabi-gdb
 RM      = rm -f
 
 DEFINES = -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DHSEVALUE=8000000
-# CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
-# 		  -mthumb --specs=nano.specs -I./$(INCDIR)
 CFLAGS  = -Wall -Wextra -ffreestanding -nostdlib -Warray-bounds -mcpu=cortex-m4 \
-		  -mthumb -I./$(INCDIR)
+		  -mthumb -I./$(INCDIR) -O0
 LDFLAGS = -L./lib/ -nostartfiles -nostdlib -l:libstm.a -T$(SRCDIR)/linker.ld \
 		  -Wl,--gc-sections
 
@@ -45,7 +57,9 @@ $(PROJ_NAME).elf: $(OBJS)
 	$(OBJCOPY) -O ihex $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(BINDIR)/$(PROJ_NAME).elf $(BINDIR)/$(PROJ_NAME).bin
 	$(OBJDUMP) -D $(BINDIR)/$(PROJ_NAME).elf > $(BINDIR)/$(PROJ_NAME).dump
+ifeq ($UNAME,Linux)
 	size $(BINDIR)/$(PROJ_NAME).elf
+endif
 
 .PHONY: clean flash debug
 

@@ -88,6 +88,22 @@ uart_pop( uart_buf_t *buf )
     return data;
 }
 
+/*******************************************************************************
+ * XXX Pretty bad code here
+ */
+int
+uart_send( int length )
+{
+    for ( int i = 0; i < length; i++ )
+    {
+        while ( !(USART1->SR & 0x00000040) )
+            ;
+        USART_SendData(USART1, tx_buf.buf[tx_buf.head]);
+        tx_buf.head++; 
+    }
+    return 0;
+}
+
 void
 USART1_IRQHandler( void )
 {

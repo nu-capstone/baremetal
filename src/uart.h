@@ -22,5 +22,6 @@ int uart_data_avail( uart_buf_t *buf );
 int uart_space_avail( uart_buf_t *buf );
 uint8_t uart_pop( uart_buf_t *buf );
 int uart_push( uart_buf_t *buf, uint8_t c );
+int uart_send( int length );
 
 #endif // UART_H
